@@ -1,7 +1,10 @@
 package com.zs.yyds.service;
 
 import com.zs.yyds.common.ResponseResult;
-import com.zs.yyds.modle.entity.SysUser;
+import com.zs.yyds.modle.dto.LoginDto;
+import com.zs.yyds.modle.dto.PassWordDto;
+import com.zs.yyds.modle.dto.RegisterDto;
+import com.zs.yyds.modle.dto.VerifyPhoneDto;
 
 /**
  * @author 倪涛涛
@@ -13,10 +16,10 @@ import com.zs.yyds.modle.entity.SysUser;
 public interface SysUserService {
     /**
      * 注册用户
-     * @param sysUser
+     * @param registerDto
      * @return
      */
-    ResponseResult register(SysUser sysUser);
+    ResponseResult register(RegisterDto registerDto);
 
     /**
      * 删除用户
@@ -24,4 +27,25 @@ public interface SysUserService {
      * @return
      */
     ResponseResult delete(String pkUserId);
+
+    /**
+     * 根据账号密码登录
+     * @param loginDto
+     * @return
+     */
+    ResponseResult loginByUserName(LoginDto loginDto);
+
+    /**
+     * 根据手机号登录
+     * @param verifyPhoneDto
+     * @return
+     */
+    ResponseResult loginByPhone(VerifyPhoneDto verifyPhoneDto);
+
+    /**
+     * 忘记密码
+     * @param passWordDto
+     * @return
+     */
+    ResponseResult forgetPassword(PassWordDto passWordDto);
 }

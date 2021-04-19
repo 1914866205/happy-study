@@ -77,7 +77,8 @@ public enum ResultCode {
 
     /*跑腿模块：80001-89999*/
     ORDER_NOT_CANCLE(80001, "订单正在配送无法取消"),
-    ERRENDS_NOT_HAVA_ROOT(80002, "您还不是跑腿");
+    ERRENDS_NOT_HAVA_ROOT(80002, "您还不是跑腿"),
+    USERNAME_IS_ALWAYS_USER(80003,"用户名已存在");
 
 
     /*校友圈模块：90001-99999*/

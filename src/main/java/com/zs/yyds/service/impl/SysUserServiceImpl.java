@@ -1,12 +1,22 @@
 package com.zs.yyds.service.impl;
 
 import com.zs.yyds.common.ResponseResult;
+import com.zs.yyds.common.ResultCode;
+import com.zs.yyds.modle.dto.LoginDto;
+import com.zs.yyds.modle.dto.PassWordDto;
+import com.zs.yyds.modle.dto.RegisterDto;
+import com.zs.yyds.modle.dto.VerifyPhoneDto;
 import com.zs.yyds.modle.entity.SysUser;
 import com.zs.yyds.repository.SysUserRepository;
+import com.zs.yyds.service.SendSmsService;
 import com.zs.yyds.service.SysUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * @author 倪涛涛
@@ -20,10 +30,39 @@ import javax.annotation.Resource;
 public class SysUserServiceImpl implements SysUserService {
     @Resource
     private SysUserRepository sysUserRepository;
+    @Resource
+    private SendSmsService sendSmsService;
 
 
     @Override
-    public ResponseResult register(SysUser sysUser) {
+    public ResponseResult register(RegisterDto registerDto) {
+        int size = sysUserRepository.findSysUsersByUserNameEquals(registerDto.getUserName()).size();
+        //如果用户名已存在，返回注册失败
+        if (size != 0) {
+            return ResponseResult.failure(ResultCode.USERNAME_IS_ALWAYS_USER);
+        }
+        SysUser sysUser = SysUser.builder()
+                .advance(registerDto.getAdvance())
+                .age(registerDto.getAge())
+                .avatarUrl(registerDto.getAvatarUrl())
+                .studyExperience(registerDto.getStudyExperience())
+                .createdTime(Timestamp.valueOf(LocalDateTime.now()))
+                .credentials(registerDto.getCredentials())
+                .email(registerDto.getEmail())
+                .ideaCity(registerDto.getIdeaCity())
+                .ideaMoney(registerDto.getIdeaMoney())
+                .ideaPosition(registerDto.getIdeaPosition())
+                .isCurrentStudent(registerDto.getIsCurrentStudent())
+                .name(registerDto.getName())
+                .password(registerDto.getPassword())
+                .phone(registerDto.getPhone())
+                .pkUserId(UUID.randomUUID().toString().substring(0, 15))
+                .qualification(registerDto.getQualification())
+                .sex(registerDto.getSex())
+                .userName(registerDto.getUserName())
+                .wxNumber(registerDto.getWxNumber())
+                .workExperience(registerDto.getWorkExperience())
+                .build();
         sysUserRepository.save(sysUser);
         return ResponseResult.success();
     }
@@ -33,4 +72,87 @@ public class SysUserServiceImpl implements SysUserService {
         sysUserRepository.deleteById(pkUserId);
         return ResponseResult.success();
     }
+
+    @Override
+    public ResponseResult loginByUserName(LoginDto loginDto) {
+        /**
+         * 1.根据用户名查找用户是否存在
+         * 2.如果不存在该用户，返回用户不存在
+         * 3.如果存在，判断对应密码是否一样
+         */
+        List<SysUser> users = sysUserRepository.findSysUsersByUserNameEquals(loginDto.getUsername());
+        int size = users.size();
+        if (size == 0) {
+            return ResponseResult.failure(ResultCode.RESULT_CODE_DATA_NONE);
+        }
+        SysUser sysUser = users.get(0);
+        if (sysUser.getPassword().equals(loginDto.getPassword())) {
+            return ResponseResult.success(sysUser);
+        } else {
+            return ResponseResult.failure(ResultCode.USER_PASSWORD_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseResult loginByPhone(VerifyPhoneDto verifyPhoneDto) {
+        /**
+         * 1.验证码是否验证通过
+         * 2.不通过则返回验证码失效或错误
+         * 3.通过则根据手机号查找用户
+         * 4.如果手机号不存在，则显示该手机号用户不存在
+         */
+        boolean result = sendSmsService.verify(verifyPhoneDto);
+        if (!result) {
+            return ResponseResult.failure(ResultCode.USER_VERIFY_CODE_ERROR_TIMEOUT);
+        }
+
+        List<SysUser> users = sysUserRepository.findSysUsersByPhoneEquals(verifyPhoneDto.getPhoneNumber());
+        int size = users.size();
+        if (size == 0) {
+            return ResponseResult.failure(ResultCode.RESULT_CODE_DATA_NONE);
+        }
+        return ResponseResult.success(users.get(0));
+    }
+
+    @Override
+    public ResponseResult forgetPassword(PassWordDto passWordDto) {
+
+        boolean result = sendSmsService.verify(VerifyPhoneDto.builder().phoneNumber(passWordDto.getPhoneNumber()).verifyCode(passWordDto.getVerifyCode()).build());
+        if (!result) {
+            return ResponseResult.failure(ResultCode.USER_VERIFY_CODE_ERROR_TIMEOUT);
+        }
+
+        List<SysUser> users = sysUserRepository.findSysUsersByPhoneEquals(passWordDto.getPhoneNumber());
+        int size = users.size();
+        if (size == 0) {
+            return ResponseResult.failure(ResultCode.RESULT_CODE_DATA_NONE);
+        }
+        SysUser sysUser = users.get(0);
+        sysUser.setPassword(passWordDto.getPassword());
+        sysUserRepository.save(sysUser);
+        return ResponseResult.success();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
