@@ -115,6 +115,15 @@ public class SysWork {
     private int status;
 
     /**
+     * 0.全职
+     * 1.兼职
+     * 2.实习
+     * 3.校招
+     * 4.社招
+     */
+    private int workStatus;
+
+    /**
      * 创建时间
      */
     @Column
