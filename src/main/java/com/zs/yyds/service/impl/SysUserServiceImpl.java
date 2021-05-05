@@ -2,10 +2,7 @@ package com.zs.yyds.service.impl;
 
 import com.zs.yyds.common.ResponseResult;
 import com.zs.yyds.common.ResultCode;
-import com.zs.yyds.modle.dto.LoginDto;
-import com.zs.yyds.modle.dto.PassWordDto;
-import com.zs.yyds.modle.dto.RegisterDto;
-import com.zs.yyds.modle.dto.VerifyPhoneDto;
+import com.zs.yyds.modle.dto.*;
 import com.zs.yyds.modle.entity.SysUser;
 import com.zs.yyds.repository.SysUserRepository;
 import com.zs.yyds.service.SendSmsService;
@@ -131,6 +128,45 @@ public class SysUserServiceImpl implements SysUserService {
         sysUser.setPassword(passWordDto.getPassword());
         sysUserRepository.save(sysUser);
         return ResponseResult.success();
+    }
+
+    @Override
+    public ResponseResult editUser(EditUserDto editUserDto) {
+        SysUser sysUser = sysUserRepository.getOne(editUserDto.getPkUserId());
+        if (sysUser == null) {
+            return ResponseResult.failure(ResultCode.RESULT_CODE_DATA_NONE, "查无此人");
+        }
+        SysUser newUser = SysUser.builder()
+                .pkUserId(sysUser.getPkUserId())
+                .userName(sysUser.getUserName())
+                .age(editUserDto.getAge())
+                .avatarUrl(editUserDto.getAvatarUrl())
+                .credentials(editUserDto.getCredentials())
+                .email(editUserDto.getEmail())
+                .isCurrentStudent(editUserDto.getIsCurrentStudent())
+                .name(editUserDto.getName())
+                .password(editUserDto.getPassword())
+                .sex(editUserDto.getSex())
+                .wxNumber(editUserDto.getWxNumber())
+                .phone(editUserDto.getPhone())
+                .qualification(editUserDto.getQualification())
+                .ideaCity(editUserDto.getIdeaCity())
+                .ideaPosition(editUserDto.getIdeaPosition())
+                .ideaMoney(editUserDto.getIdeaMoney())
+                .workExperience(editUserDto.getWorkExperience())
+                .createdTime(sysUser.getCreatedTime())
+                .credentials(editUserDto.getCredentials())
+                .advance(editUserDto.getAdvance())
+                .studyExperience(editUserDto.getStudyExperience())
+                .build();
+        sysUserRepository.save(newUser);
+        return ResponseResult.success(newUser);
+    }
+
+    @Override
+    public ResponseResult findUserByWork(String position) {
+        List<SysUser> users = sysUserRepository.findSysUsersByIdeaPositionIsLike("%" + position + "%");
+        return ResponseResult.success(users);
     }
 }
 

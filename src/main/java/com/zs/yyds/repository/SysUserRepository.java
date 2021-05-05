@@ -30,4 +30,6 @@ public interface SysUserRepository extends JpaRepository<SysUser, String> {
      */
     List<SysUser> findSysUsersByPhoneEquals(String phone);
 
+
+    List<SysUser> findSysUsersByIdeaPositionIsLike(String position);
 }

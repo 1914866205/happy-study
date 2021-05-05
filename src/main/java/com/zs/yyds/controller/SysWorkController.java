@@ -1,6 +1,9 @@
 package com.zs.yyds.controller;
 
 import com.zs.yyds.common.ResponseResult;
+import com.zs.yyds.modle.dto.CreateWorkDto;
+import com.zs.yyds.modle.dto.DelWorkDto;
+import com.zs.yyds.modle.dto.EditWorkDto;
 import com.zs.yyds.modle.dto.FindWorkDto;
 import com.zs.yyds.service.SysWorkService;
 import io.swagger.annotations.Api;
@@ -38,6 +41,43 @@ public class SysWorkController {
     }
 
 
+    @ApiOperation(value = "获取所有的职位", notes = "获取所有的职位")
+    @PostMapping("getAllWork")
+    public ResponseResult getAllWork() {
+        return sysWorkService.findAllType();
+    }
 
+
+    @ApiOperation(value = "添加职位", notes = "添加职位")
+    @PostMapping("createWork")
+    public ResponseResult createWork(@RequestBody CreateWorkDto work) {
+        return sysWorkService.createWork(work);
+    }
+
+    @ApiOperation(value = "查找该用户发布的所有职位", notes = "查找该用户发布的所有职位")
+    @PostMapping("findWorkByUserId")
+    public ResponseResult findWorkByUserId(String userId) {
+        return sysWorkService.findWorkByUserId(userId);
+    }
+
+
+    @ApiOperation(value = "删除自己发布的职位", notes = "删除自己发布的职位")
+    @PostMapping("delWork")
+    public ResponseResult delWork(@RequestBody DelWorkDto delWork) {
+        return sysWorkService.delWork(delWork);
+    }
+
+    @ApiOperation(value = "修改自己发布过的职位", notes = "修改自己发布过的职位")
+    @PostMapping("editWork")
+    public ResponseResult editWork(@RequestBody EditWorkDto editWorkDto) {
+        return sysWorkService.editWork(editWorkDto);
+    }
+
+    @ApiOperation(value = "根据工作名称查找相关工作", notes = "根据招聘工作id查询工作详情")
+    @PostMapping("getWorkByName")
+    public ResponseResult getWorkByName(String workName) {
+        return sysWorkService.getWorkByName(workName);
+    }
 
 }
+

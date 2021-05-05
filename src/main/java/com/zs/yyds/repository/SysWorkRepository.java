@@ -2,7 +2,6 @@ package com.zs.yyds.repository;
 
 import com.zs.yyds.modle.entity.SysWork;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 
 /**
@@ -22,4 +21,17 @@ public interface SysWorkRepository extends JpaRepository<SysWork, String> {
      */
     List<SysWork> findSysWorksByPkWorkTypeIdAndWorkStatusAndStatusEquals(String pkWorkTypeId, int workStatus, int status);
 
+    /**
+     * 查找该用户发布的所有职位
+     * @param userId
+     * @return
+     */
+    List<SysWork> findSysWorksByPkUserIdEquals(String userId);
+
+    /**
+     * 根据工作名称查找类似工作
+     * @param workName
+     * @return
+     */
+    List<SysWork> findSysWorkByPositionNameIsLike(String workName);
 }

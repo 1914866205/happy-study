@@ -1,10 +1,7 @@
 package com.zs.yyds.service;
 
 import com.zs.yyds.common.ResponseResult;
-import com.zs.yyds.modle.dto.LoginDto;
-import com.zs.yyds.modle.dto.PassWordDto;
-import com.zs.yyds.modle.dto.RegisterDto;
-import com.zs.yyds.modle.dto.VerifyPhoneDto;
+import com.zs.yyds.modle.dto.*;
 
 /**
  * @author 倪涛涛
@@ -48,4 +45,13 @@ public interface SysUserService {
      * @return
      */
     ResponseResult forgetPassword(PassWordDto passWordDto);
+
+    ResponseResult editUser(EditUserDto editUserDto);
+
+    /**
+     * 根据职位查找招聘者
+     * @param position
+     * @return
+     */
+    ResponseResult findUserByWork(String position);
 }

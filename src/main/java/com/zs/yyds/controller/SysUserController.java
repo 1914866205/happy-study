@@ -1,10 +1,7 @@
 package com.zs.yyds.controller;
 
 import com.zs.yyds.common.ResponseResult;
-import com.zs.yyds.modle.dto.LoginDto;
-import com.zs.yyds.modle.dto.PassWordDto;
-import com.zs.yyds.modle.dto.RegisterDto;
-import com.zs.yyds.modle.dto.VerifyPhoneDto;
+import com.zs.yyds.modle.dto.*;
 import com.zs.yyds.modle.entity.SysUser;
 import com.zs.yyds.service.SysUserService;
 import io.swagger.annotations.Api;
@@ -49,27 +46,28 @@ public class SysUserController {
         return sysUserService.loginByPhone(verifyPhoneDto);
     }
 
-
-
     @ApiOperation(value = "忘记密码", notes = "忘记密码")
     @PostMapping("forgetPassword")
     ResponseResult forgetPassword(@RequestBody PassWordDto passWordDto) {
         return sysUserService.forgetPassword(passWordDto);
     }
 
-
-
-
-
-
-
-    @PostMapping("del")
-    ResponseResult delete(String pkUserId) {
-        return sysUserService.delete(pkUserId);
+    @ApiOperation(value = "修改信息", notes = "修改信息")
+    @PostMapping("editUser")
+    ResponseResult editUser(@RequestBody EditUserDto editUserDto) {
+        return sysUserService.editUser(editUserDto);
     }
 
-    @GetMapping("hello")
-    String hello() {
-        return "hello";
+    /**
+     * 根据职位模糊查找招聘者
+     * @param position
+     * @return
+     */
+    @ApiOperation(value = "根据职位查找招聘者,直接请求则查找所有职位的用户", notes = "根据职位查找招聘者")
+    @PostMapping("findUserByWork")
+    ResponseResult findUserByWork(String position) {
+        return sysUserService.findUserByWork(position);
     }
+
+
 }
