@@ -31,6 +31,7 @@ public class EditUserDto {
     private String phone;
     private String email;
     private String advance;
+    private String companyId;
     private int age;
     private String qualification;
     private String avatarUrl;

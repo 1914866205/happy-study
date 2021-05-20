@@ -54,4 +54,10 @@ public interface SysUserService {
      * @return
      */
     ResponseResult findUserByWork(String position);
+
+    ResponseResult findUserByphoneNumber(String phoneNumber);
+
+    ResponseResult findUserByUserName(String username);
+
+    ResponseResult findUserInfoById(String userId);
 }

@@ -2,6 +2,7 @@ package com.zs.yyds.service;
 
 import com.zs.yyds.common.ResponseResult;
 import com.zs.yyds.modle.dto.CompanyDto;
+import com.zs.yyds.modle.dto.EditCompanyDto;
 
 /**
  * @author 倪涛涛
@@ -30,4 +31,12 @@ public interface CompanyService {
      * @return
      */
     ResponseResult addCompany(CompanyDto companyDto);
+
+
+    /**
+     * 编辑公司信息
+     * @param editCompanyDto
+     * @return
+     */
+    ResponseResult editCompany(EditCompanyDto editCompanyDto);
 }

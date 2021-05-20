@@ -2,6 +2,7 @@ package com.zs.yyds.controller;
 
 import com.zs.yyds.common.ResponseResult;
 import com.zs.yyds.modle.dto.CompanyDto;
+import com.zs.yyds.modle.dto.EditCompanyDto;
 import com.zs.yyds.service.CompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,6 +43,13 @@ public class CompanyController {
     @ApiOperation(value = "添加公司", notes = "添加公司")
     ResponseResult addCompany(@RequestBody CompanyDto companyDto) {
         return companyService.addCompany(companyDto);
+    }
+
+
+    @PostMapping("/edit")
+    @ApiOperation(value = "编辑公司", notes = "编辑公司")
+    ResponseResult editCompany(@RequestBody EditCompanyDto editCompanyDto) {
+        return companyService.editCompany(editCompanyDto);
     }
 
 

@@ -70,4 +70,36 @@ public class SysUserController {
     }
 
 
+    /**
+     * 查询手机号是否存在
+     * @param phoneNumber
+     * @return
+     */
+    @ApiOperation(value = "查询手机号是否存在", notes = "查询手机号是否存在")
+    @PostMapping("phoneIsExist")
+    ResponseResult phoneIsExist(String phoneNumber) {
+        return sysUserService.findUserByphoneNumber(phoneNumber);
+    }
+
+    /**
+     * 查询账号是否存在
+     * @param username
+     * @return
+     */
+    @ApiOperation(value = "查询账号是否存在", notes = "查询账号是否存在")
+    @PostMapping("usernameIsExist")
+    ResponseResult usernameIsExist(String username) {
+        return sysUserService.findUserByUserName(username);
+    }
+
+    /**
+     * 根据id获取用户信息
+     * @param userId
+     * @return
+     */
+    @ApiOperation(value = "根据id获取用户信息", notes = "根据id获取用户信息")
+    @PostMapping("findUserInfoById")
+    ResponseResult findUserInfoById(String userId) {
+        return sysUserService.findUserInfoById(userId);
+    }
 }

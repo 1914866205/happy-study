@@ -147,6 +147,7 @@ public class SysUserServiceImpl implements SysUserService {
                 .name(editUserDto.getName())
                 .password(editUserDto.getPassword())
                 .sex(editUserDto.getSex())
+                .companyId(editUserDto.getCompanyId())
                 .wxNumber(editUserDto.getWxNumber())
                 .phone(editUserDto.getPhone())
                 .qualification(editUserDto.getQualification())
@@ -167,6 +168,32 @@ public class SysUserServiceImpl implements SysUserService {
     public ResponseResult findUserByWork(String position) {
         List<SysUser> users = sysUserRepository.findSysUsersByIdeaPositionIsLike("%" + position + "%");
         return ResponseResult.success(users);
+    }
+
+    @Override
+    public ResponseResult findUserByphoneNumber(String phoneNumber) {
+        int size = sysUserRepository.findSysUsersByPhoneEquals(phoneNumber).size();
+        if (size == 0) {
+            return ResponseResult.success();
+        } else {
+            return ResponseResult.failure(ResultCode.PHONE_IS_ALWAYS_USER);
+        }
+    }
+
+    @Override
+    public ResponseResult findUserByUserName(String username) {
+        int size = sysUserRepository.findSysUsersByUserNameEquals(username).size();
+        if (size == 0) {
+            return ResponseResult.success();
+        } else {
+            return ResponseResult.failure(ResultCode.USERNAME_IS_ALWAYS_USER);
+        }
+    }
+
+    @Override
+    public ResponseResult findUserInfoById(String userId) {
+
+        return ResponseResult.success(sysUserRepository.findById(userId));
     }
 }
 

@@ -89,6 +89,12 @@ public class SysUser {
     @Column
     private String qualification;
     /**
+     * 公司Id
+     */
+    @Column
+    private String companyId;
+
+    /**
      * 头像地址
      */
     @Column

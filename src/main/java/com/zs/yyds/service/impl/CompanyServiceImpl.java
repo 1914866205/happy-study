@@ -3,6 +3,7 @@ package com.zs.yyds.service.impl;
 import com.zs.yyds.common.ResponseResult;
 import com.zs.yyds.common.ResultCode;
 import com.zs.yyds.modle.dto.CompanyDto;
+import com.zs.yyds.modle.dto.EditCompanyDto;
 import com.zs.yyds.modle.entity.Company;
 import com.zs.yyds.modle.entity.SysWork;
 import com.zs.yyds.modle.enums.CompanyType;
@@ -94,7 +95,7 @@ public class CompanyServiceImpl implements CompanyService {
                 .isMarketing(companyDto.getIsMarketing())
                 .introduction(companyDto.getIntroduction())
                 .marketTime(companyDto.getMarketTime())
-                .pkUserId(companyDto.getPkUserId())
+                .pkUserId(companyDto.getPkUserId() + "--")
                 .pkWorkId(companyDto.getPkWorkId())
                 .registerMoney(companyDto.getRegisterMoney())
                 .workTime(companyDto.getWorkTime())
@@ -105,5 +106,35 @@ public class CompanyServiceImpl implements CompanyService {
                 .build();
         companyRepository.save(company);
         return ResponseResult.success();
+    }
+
+    @Override
+    public ResponseResult editCompany(EditCompanyDto editCompanyDto) {
+        Company old = companyRepository.getOne(editCompanyDto.getCompanyId());
+        Company company = Company.builder()
+                .pkCompanyId(editCompanyDto.getCompanyId())
+                .addresses(editCompanyDto.getAddresses())
+                .avatarUrl(editCompanyDto.getAvatarUrl())
+                .companyName(editCompanyDto.getCompanyName())
+                .bossName(editCompanyDto.getBossName())
+                .businessInformation(editCompanyDto.getBusinessInformation())
+                .createdTime(Timestamp.valueOf(LocalDateTime.now()))
+                .freeTime(editCompanyDto.getFreeTime())
+                .isMarketing(editCompanyDto.getIsMarketing())
+                .introduction(editCompanyDto.getIntroduction())
+                .marketTime(editCompanyDto.getMarketTime())
+                .pkUserId(editCompanyDto.getPkUserId())
+                .pkWorkId(editCompanyDto.getPkWorkId())
+                .registerMoney(editCompanyDto.getRegisterMoney())
+                .workTime(editCompanyDto.getWorkTime())
+                .companyType(editCompanyDto.getCompanyType())
+                .employeeWelfare(editCompanyDto.getEmployeeWelfare())
+                .scale(editCompanyDto.getScale())
+                .album(editCompanyDto.getAlbum())
+                .createdTime(old.getCreatedTime())
+                .build();
+
+        companyRepository.save(company);
+        return null;
     }
 }
