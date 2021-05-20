@@ -52,6 +52,11 @@ public class CompanyController {
         return companyService.editCompany(editCompanyDto);
     }
 
+    @PostMapping("/findByUserId")
+    @ApiOperation(value = "根据用户id查询公司", notes = "根据用户id查询公司")
+    ResponseResult findCompanyByUserId(String userId) {
+        return companyService.findCompanyByUserId(userId);
+    }
 
 
 

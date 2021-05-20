@@ -135,6 +135,15 @@ public class CompanyServiceImpl implements CompanyService {
                 .build();
 
         companyRepository.save(company);
-        return null;
+        return ResponseResult.success();
+    }
+
+    @Override
+    public ResponseResult findCompanyByUserId(String userId) {
+        List<Company> company = companyRepository.findCompanyByPkUserIdEquals(userId);
+        if (company.size() == 0) {
+            return ResponseResult.success("无公司");
+        }
+        return ResponseResult.success(company.get(0));
     }
 }

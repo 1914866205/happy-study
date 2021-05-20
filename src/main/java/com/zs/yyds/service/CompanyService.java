@@ -39,4 +39,11 @@ public interface CompanyService {
      * @return
      */
     ResponseResult editCompany(EditCompanyDto editCompanyDto);
+
+    /**
+     * 根据用户id查询公司信息
+     * @param userId
+     * @return
+     */
+    ResponseResult findCompanyByUserId(String userId);
 }

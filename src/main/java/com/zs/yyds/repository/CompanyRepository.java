@@ -16,4 +16,6 @@ import java.util.List;
 //云琪保管
 public interface CompanyRepository extends JpaRepository<Company, String> {
     List<Company> findCompanyByCompanyNameEquals(String companyName);
+
+    List<Company> findCompanyByPkUserIdEquals(String userId);
 }
