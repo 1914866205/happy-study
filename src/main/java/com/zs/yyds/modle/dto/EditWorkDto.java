@@ -25,7 +25,6 @@ import java.sql.Timestamp;
 public class EditWorkDto {
     private String pkWorkId;
     private String pkUserId;
-
     private String positionName;
     private int startMoney;
     private int endMoney;

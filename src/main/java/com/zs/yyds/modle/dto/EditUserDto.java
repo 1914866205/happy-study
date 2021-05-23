@@ -29,6 +29,7 @@ public class EditUserDto {
     private int sex;
     private String wxNumber;
     private String phone;
+    private int isLookForJob;
     private String email;
     private String advance;
     private String companyId;

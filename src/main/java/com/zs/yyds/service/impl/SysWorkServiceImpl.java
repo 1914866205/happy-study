@@ -162,7 +162,7 @@ public class SysWorkServiceImpl implements SysWorkService {
                     .status(editWorkDto.getStatus())
                     .workStatus(editWorkDto.getWorkStatus())
                     .build();
-            sysWorkRepository.save(sysWork);
+            sysWorkRepository.save(newWork);
         }
 
         return ResponseResult.success();

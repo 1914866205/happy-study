@@ -27,6 +27,7 @@ public class RegisterDto {
     private String password;
     private String name;
     private int sex;
+    private int isLookForJob;
     private String wxNumber;
     private String phone;
     private String email;

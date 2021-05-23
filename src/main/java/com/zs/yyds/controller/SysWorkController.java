@@ -41,7 +41,7 @@ public class SysWorkController {
     }
 
 
-    @ApiOperation(value = "获取所有的职位", notes = "获取所有的职位")
+    @ApiOperation(value = "菜单中获取所有的职位", notes = "菜单中获取所有的职位")
     @PostMapping("getAllWork")
     public ResponseResult getAllWork() {
         return sysWorkService.findAllType();
@@ -51,6 +51,7 @@ public class SysWorkController {
     @ApiOperation(value = "添加职位", notes = "添加职位")
     @PostMapping("createWork")
     public ResponseResult createWork(@RequestBody CreateWorkDto work) {
+        System.out.println(work);
         return sysWorkService.createWork(work);
     }
 

@@ -18,7 +18,7 @@ import java.sql.Timestamp;
  * @Description TODO
  * @createTime 2021年04月14日 22:42:00
  */
-@AllArgsConstructor //全参
+@AllArgsConstructor //全参33
 @NoArgsConstructor //无参
 @Builder
 @Data
@@ -77,7 +77,6 @@ public class SysUser {
     @Column
     private String advance;
 
-
     /**
      * 年龄
      */
@@ -93,6 +92,12 @@ public class SysUser {
      */
     @Column
     private String companyId;
+
+    /**
+     * 是否是求职者 0不是  1是
+     */
+    @Column
+    private int isLookForJob;
 
     /**
      * 头像地址

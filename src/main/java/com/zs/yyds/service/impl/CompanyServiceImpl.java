@@ -52,18 +52,20 @@ public class CompanyServiceImpl implements CompanyService {
             companyVo.setAvatarUrl(company.getAvatarUrl());
             companyVo.setScale(company.getScale());
             List<WorkVo> list = new ArrayList<>();
-            String[] workIds = company.getPkWorkId().split("--");
+            String[] workIds = company.getPkWorkId().trim().split("--");
             for (int i = 0; i < workIds.length; i++) {
-                SysWork sysWork = sysWorkRepository.getOne(workIds[i]);
-                WorkVo workVo = new WorkVo();
-                workVo.setWorkId(sysWork.getPkWorkId());
-                workVo.setAddress(sysWork.getWorkCity());
-                workVo.setWorkName(sysWork.getPositionName());
-                workVo.setWorkExperience(sysWork.getWorkExperience());
-                workVo.setStudyExperience(sysWork.getQualification());
-                workVo.setStartMoney(String.valueOf(sysWork.getStartMoney()));
-                workVo.setEndMoney(String.valueOf(sysWork.getEndMoney()));
-                list.add(workVo);
+                if (!"".equals(workIds[i])) {
+                    SysWork sysWork = sysWorkRepository.getOne(workIds[i]);
+                    WorkVo workVo = new WorkVo();
+                    workVo.setWorkId(sysWork.getPkWorkId());
+                    workVo.setAddress(sysWork.getWorkCity());
+                    workVo.setWorkName(sysWork.getPositionName());
+                    workVo.setWorkExperience(sysWork.getWorkExperience());
+                    workVo.setStudyExperience(sysWork.getQualification());
+                    workVo.setStartMoney(String.valueOf(sysWork.getStartMoney()));
+                    workVo.setEndMoney(String.valueOf(sysWork.getEndMoney()));
+                    list.add(workVo);
+                }
             }
             companyVo.setWorkVoList(list);
             companyVoList.add(companyVo);
@@ -95,7 +97,7 @@ public class CompanyServiceImpl implements CompanyService {
                 .isMarketing(companyDto.getIsMarketing())
                 .introduction(companyDto.getIntroduction())
                 .marketTime(companyDto.getMarketTime())
-                .pkUserId(companyDto.getPkUserId() + "--")
+                .pkUserId(companyDto.getPkUserId())
                 .pkWorkId(companyDto.getPkWorkId())
                 .registerMoney(companyDto.getRegisterMoney())
                 .workTime(companyDto.getWorkTime())
@@ -110,9 +112,9 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public ResponseResult editCompany(EditCompanyDto editCompanyDto) {
-        Company old = companyRepository.getOne(editCompanyDto.getCompanyId());
+        Company old = companyRepository.getOne(editCompanyDto.getPkCompanyId());
         Company company = Company.builder()
-                .pkCompanyId(editCompanyDto.getCompanyId())
+                .pkCompanyId(editCompanyDto.getPkCompanyId())
                 .addresses(editCompanyDto.getAddresses())
                 .avatarUrl(editCompanyDto.getAvatarUrl())
                 .companyName(editCompanyDto.getCompanyName())

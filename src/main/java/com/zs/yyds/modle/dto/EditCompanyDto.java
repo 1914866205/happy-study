@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @Builder
 @Data
 public class EditCompanyDto {
-    private String companyId;
+    private String pkCompanyId;
     private String companyName;
     private int isMarketing;
     private String scale;
@@ -38,3 +38,4 @@ public class EditCompanyDto {
     private String registerMoney;
     private Timestamp marketTime;
 }
+
