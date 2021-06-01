@@ -5,11 +5,14 @@ import com.zs.yyds.modle.dto.CreateWorkDto;
 import com.zs.yyds.modle.dto.DelWorkDto;
 import com.zs.yyds.modle.dto.EditWorkDto;
 import com.zs.yyds.modle.dto.FindWorkDto;
+import com.zs.yyds.modle.entity.Company;
 import com.zs.yyds.modle.entity.SysUser;
 import com.zs.yyds.modle.entity.SysWork;
 import com.zs.yyds.modle.entity.WorkType;
 import com.zs.yyds.modle.vo.PublisherVo;
+import com.zs.yyds.modle.vo.WorkDetailVo;
 import com.zs.yyds.modle.vo.WorkListVo;
+import com.zs.yyds.repository.CompanyRepository;
 import com.zs.yyds.repository.SysUserRepository;
 import com.zs.yyds.repository.SysWorkRepository;
 import com.zs.yyds.repository.WorkTypeRepository;
@@ -40,6 +43,8 @@ public class SysWorkServiceImpl implements SysWorkService {
     private SysUserRepository sysUserRepository;
     @Resource
     private WorkTypeRepository workTypeRepository;
+    @Resource
+    private CompanyRepository companyRepository;
 
     @Override
     public ResponseResult getAllWorkByTypeAndState(FindWorkDto findWorkDto) {
@@ -74,7 +79,15 @@ public class SysWorkServiceImpl implements SysWorkService {
 
     @Override
     public ResponseResult getWorkById(String workId) {
-        return ResponseResult.success(sysWorkRepository.findById(workId).get());
+        SysWork sysWork = sysWorkRepository.findById(workId).get();
+
+        SysUser sysUser = sysUserRepository.getOne(sysWork.getPkUserId());
+        Company company = companyRepository.findCompanyByCompanyNameEquals(sysWork.getCompany()).get(0);
+        Map map = new HashMap();
+        map.put("work", sysWork);
+        map.put("user", sysUser);
+        map.put("company", company);
+        return ResponseResult.success(map);
     }
 
     @Override
@@ -170,7 +183,23 @@ public class SysWorkServiceImpl implements SysWorkService {
 
     @Override
     public ResponseResult getWorkByName(String workName) {
-        List<SysWork> work = sysWorkRepository.findSysWorkByPositionNameIsLike("%" + workName + "%");
-        return ResponseResult.success(work);
+        List<WorkDetailVo> workDetailVos = new ArrayList<>();
+        List<SysWork> works = sysWorkRepository.findSysWorkByPositionNameIsLike("%" + workName + "%");
+        for (SysWork work : works) {
+            List<Company> companys = companyRepository.findCompanyByCompanyNameEquals(work.getCompany());
+            Company company = null;
+            if (companys.size() != 0) {
+                company = companys.get(0);
+            }
+            SysUser sysUser = sysUserRepository.getOne(work.getPkUserId());
+            WorkDetailVo detailVo = WorkDetailVo.builder()
+                    .sysWork(work)
+                    .company(company)
+                    .sysUser(sysUser)
+                    .build();
+            workDetailVos.add(detailVo);
+            System.out.println(workDetailVos);
+        }
+        return ResponseResult.success(workDetailVos);
     }
 }

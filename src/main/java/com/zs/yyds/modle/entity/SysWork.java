@@ -1,6 +1,7 @@
 package com.zs.yyds.modle.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class SysWork {
     @Id
     private String pkWorkId;

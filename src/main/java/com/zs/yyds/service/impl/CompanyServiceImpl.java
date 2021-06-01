@@ -40,10 +40,11 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public ResponseResult findAll() {
-
         List<Company> companies = companyRepository.findAll();
+        System.out.println("companies_________________" + companies);
         List<CompanyVo> companyVoList = new ArrayList<>();
         for (Company company : companies) {
+            System.out.println("company_________________" + company);
             CompanyVo companyVo = new CompanyVo();
             companyVo.setCompanyId(company.getPkCompanyId());
             companyVo.setCompanyName(company.getCompanyName());
@@ -54,6 +55,7 @@ public class CompanyServiceImpl implements CompanyService {
             List<WorkVo> list = new ArrayList<>();
             String[] workIds = company.getPkWorkId().trim().split("--");
             for (int i = 0; i < workIds.length; i++) {
+                System.out.println("workIds["+i+"]"+workIds[i]);
                 if (!"".equals(workIds[i])) {
                     SysWork sysWork = sysWorkRepository.getOne(workIds[i]);
                     WorkVo workVo = new WorkVo();
@@ -64,12 +66,15 @@ public class CompanyServiceImpl implements CompanyService {
                     workVo.setStudyExperience(sysWork.getQualification());
                     workVo.setStartMoney(String.valueOf(sysWork.getStartMoney()));
                     workVo.setEndMoney(String.valueOf(sysWork.getEndMoney()));
+                    System.out.println("workVo_________________" + workVo);
                     list.add(workVo);
                 }
             }
             companyVo.setWorkVoList(list);
             companyVoList.add(companyVo);
+            System.out.println("companyVo_________________" + companyVo);
         }
+            System.out.println("companyVoList_________________" + companyVoList);
         return ResponseResult.success(companyVoList);
     }
 

@@ -147,7 +147,7 @@ public class SysUserServiceImpl implements SysUserService {
                 .isCurrentStudent(editUserDto.getIsCurrentStudent())
                 .name(editUserDto.getName())
                 .password(editUserDto.getPassword())
-                .isLookForJob(editUserDto.getIsLookForJob())
+                .isLookForJob(sysUser.getIsLookForJob())
                 .sex(editUserDto.getSex())
                 .companyId(editUserDto.getCompanyId())
                 .wxNumber(editUserDto.getWxNumber())

@@ -34,4 +34,5 @@ public interface SysWorkRepository extends JpaRepository<SysWork, String> {
      * @return
      */
     List<SysWork> findSysWorkByPositionNameIsLike(String workName);
+
 }

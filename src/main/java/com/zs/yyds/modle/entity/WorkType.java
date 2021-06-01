@@ -1,5 +1,6 @@
 package com.zs.yyds.modle.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +23,7 @@ import javax.persistence.Id;
 @Data
 @NoArgsConstructor
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class WorkType {
     /**
      * 分类id
